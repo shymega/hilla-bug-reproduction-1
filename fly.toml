@@ -1,0 +1,30 @@
+# fly.toml app configuration file generated for hilla-native-bug-report-reproduction-shymega on 2024-05-31T00:33:41+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'hilla-native-bug-report-reproduction-shymega'
+primary_region = 'lhr'
+
+[build]
+builder = 'paketobuildpacks/builder-jammy-tiny'
+
+[build.args]
+  # BP_JAVA_INSTALL_NODE = 'true'
+  BP_JVM_VERSION = '21'
+  BP_MAVEN_ACTIVE_PROFILES = 'production,native'
+  BP_NATIVE_IMAGE = 'true'
+  CNB_TARGET_OS = 'linux'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1
